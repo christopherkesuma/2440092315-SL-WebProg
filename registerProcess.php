@@ -38,6 +38,9 @@ if (isset($_POST['register'])) {
         $namaFile = $_FILES['foto-profil']['name'];
         $tempName = $_FILES['foto-profil']['tmp_name'];
         $dirUpload = 'foto-profil/';
+        if (!file_exists($dirUpload)) {
+            mkdir($dirUpload, 0777, true);
+        }
         $uploaded = move_uploaded_file($tempName, $dirUpload.$namaFile);
 
         $_SESSION['foto-profil'] = $namaFile;
