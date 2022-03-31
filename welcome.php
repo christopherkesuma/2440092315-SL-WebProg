@@ -1,5 +1,15 @@
 <?php
 session_start();
+include('config.php');
+$str_query = 'select Username from User';
+$query = mysqli_query($connection, $str_query);
+$row = mysqli_fetch_array($query);
+
+if (isset($_SESSION['register-done'])) {
+    session_unset();
+    $_SESSION['register-done'] = true;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +36,7 @@ session_start();
         <div style="padding:50px 0 100px 0; font-size:20pt">Aplikasi Pengelola Keuangan</div>
         <div style="padding:40px 0; font-size:30pt">Selamat Datang di Aplikasi Pengelola Keuangan</div>
         <div style="display: flex;justify-content:center">
-            <a href="./login.php" style="background-color:<?= isset($_SESSION['register-done']) ? '#99d6ed' : '#c4c4c4'; ?>">Login</a>
+            <a href="./login.php" style="background-color:<?= is_null($row) ? '#c4c4c4' : '#99d6ed'; ?>">Login</a>
             <a href="./register.php" style="background-color:#c6ed99">Register</a>
         </div>
         <div style="margin-top: 30px;">

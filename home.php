@@ -1,6 +1,10 @@
 <?php
 session_start();
+include('config.php');
 if (!isset($_SESSION['login-done'])) header('Location: login.php');
+$str_query = 'select NamaDepan, NamaTengah, NamaBelakang from User where Username = "'.$_SESSION['login-done'].'"';
+$query = mysqli_query($connection, $str_query);
+$row = mysqli_fetch_array($query);
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +32,7 @@ if (!isset($_SESSION['login-done'])) header('Location: login.php');
         <div style="font-size: 24pt;margin-top:200px;text-align:center">
             Halo 
             <strong>
-                <?= $_SESSION['nama-depan'].' '.$_SESSION['nama-tengah'].' '.$_SESSION['nama-belakang']; ?>
+                <?= $row['NamaDepan'].' '.$row['NamaTengah'].' '.$row['NamaBelakang']; ?>
             </strong>
             , Selamat datang di Aplikasi Pengelolaan Keuangan
         </div>

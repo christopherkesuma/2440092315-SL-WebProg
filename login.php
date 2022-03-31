@@ -1,6 +1,10 @@
 <?php
 session_start();
-if (!isset($_SESSION['register-done'])) header('Location: register.php');
+if (isset($_SESSION['register-done'])) unset($_SESSION['register-done']);
+include('config.php');
+$str_query = 'select Username from User';
+$query = mysqli_query($connection, $str_query);
+if (is_null(mysqli_fetch_array($query))) header('Location: register.php');
 if (isset($_SESSION['login-done'])) header('Location: home.php');
 ?>
 

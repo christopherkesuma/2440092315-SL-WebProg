@@ -1,14 +1,10 @@
 <?php
 
 session_start();
-session_destroy();
-
-$folder = 'foto-profil';
-$files = glob($folder.'/*');
-foreach ($files as $file) {
-    if (is_file($file)) unlink($file);
+if (!isset($_SESSION['login-done'])) header('Location: login.php');
+else {
+    session_destroy();
+    header('Location: welcome.php');
 }
-
-header('Location: welcome.php');
 
 ?>
