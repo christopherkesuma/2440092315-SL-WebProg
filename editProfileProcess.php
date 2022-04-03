@@ -60,26 +60,21 @@ if (isset($_POST['simpan'])) {
     $str_query .= 'WargaNegara = "' . $wargaNegara . '", ';
     $str_query .= 'Alamat = "' . $alamat . '"';
     
+    $folder = 'foto-profil';
     // cek jika ada foto yang diupload
-    if ($_FILES['foto-profil']['size'] > 0) {
-        $dirUpload = 'foto-profil/';
-        $tempName = $_FILES['foto-profil']['tmp_name'];
-        $namaFile = $_FILES['foto-profil']['name'];
-        $query3 = mysqli_query($connection, $str_query1);
-        // kalau sudah ada yang sama, ganti nama
-        while ($row = mysqli_fetch_array($query3)) {
-            if ($namaFile == $row['FotoProfil']) {
-                $namaFile = '1'.$namaFile;
-            }
-        }
-        $uploaded = move_uploaded_file($tempName, $dirUpload.$namaFile);
-
+    if ($_FILES[$folder]['size'] > 0) {
         // hapus foto lama
-        $folder = 'foto-profil';
         $files = glob($folder.'/*');
         foreach ($files as $file) {
             if ($file == $folder.'/'.$data['FotoProfil']) unlink($file);
         }
+
+        // upload foto baru
+        $type = explode('.', $_FILES[$folder]['name']);
+        $namaFile = $data['Username'].'.'.end($type);
+        $tempName = $_FILES[$folder]['tmp_name'];
+        $uploaded = move_uploaded_file($tempName, $folder.'/'.$namaFile);
+
         $str_query .= ', FotoProfil = "' . $namaFile . '"';
     }
     $str_query .= ' where Username = "' . $_SESSION['login-done'] . '"';

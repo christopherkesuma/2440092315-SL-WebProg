@@ -79,13 +79,14 @@ if (isset($_POST['register'])) {
 
     if(strlen($_SESSION['msg']) > 1 || strlen($_SESSION['msg-username']) > 1 || strlen($_SESSION['msg-email']) > 1 || strlen($_SESSION['msg-nik']) > 1) header('Location: register.php');
     else {
-        $namaFile = $_FILES['foto-profil']['name'];
-        $tempName = $_FILES['foto-profil']['tmp_name'];
-        $dirUpload = 'foto-profil/';
-        if (!file_exists($dirUpload)) {
-            mkdir($dirUpload, 0777, true);
+        $folder = 'foto-profil';
+        $type = explode('.', $_FILES[$folder]['name']);
+        $namaFile = $username.'.'.end($type);
+        $tempName = $_FILES[$folder]['tmp_name'];
+        if (!file_exists($folder)) {
+            mkdir($folder, 0777, true);
         }
-        $uploaded = move_uploaded_file($tempName, $dirUpload.$namaFile);
+        $uploaded = move_uploaded_file($tempName, $folder.'/'.$namaFile);
 
         $_SESSION['register-done'] = true;
 
